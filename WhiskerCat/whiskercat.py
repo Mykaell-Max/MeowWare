@@ -33,11 +33,9 @@ Here is my wallet address: WhiskerCat1234567890, and don't forget the fish!
    /`.          ,'-`----Y   |
   (            ;        |   '
   |  ,-.    ,-'         |  /
-  |  | (   |            | /
+  |  | (   |  your files| /
   )  |  \  `.___________|/
-  `--'   `--'
-
-See ya later, alligator!   
+  `--'   `--' 
 """
 
 class WhiskerCat:
