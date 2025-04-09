@@ -207,5 +207,4 @@ if __name__ == "__main__":
         whisker.load_and_decrypt_key()
         print("Decrypting files...")
         whisker.decrypt_directory()
-        
         print("Decryption complete!")
