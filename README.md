@@ -59,7 +59,7 @@ python BlackCat/blackcat.py
 
 ---
 
-### 🐶 Dog (Code Obfuscator)
+### 🐶 Dog (Code Obfuscator) [🚧 _Under development_]
 
 Ever wanted to make your code look like a cryptic mess? Dog has your back! It:
 - Renames variables and functions with random gibberish
