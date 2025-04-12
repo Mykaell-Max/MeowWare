@@ -10,7 +10,7 @@ Welcome to **MeowWare**, a collection of simulated malware programs designed to 
 
 ## What's Inside? 🐱
 
-### 😺 WhiskerCat (Ransomware Simulation)
+### 😺 [WhiskerCat (Ransomware Simulation)](WhiskerCat/whiskercat.py)
 
 WhiskerCat is here to show you how ransomware works (but don't worry, it's all for learning). It:
 - Encrypts files with asymmetric and symmetric keys
@@ -27,7 +27,7 @@ python WhiskerCat/whiskercat.py decrypt
 
 ---
 
-### 🐱 StrayKitten (Worm Simulation)
+### 🐱 [StrayKitten (Worm Simulation)](StrayKitten/straykitten.py)
 
 StrayKitten is a curious little cat that:
 - Scans networks for vulnerable machines
@@ -41,7 +41,7 @@ python StrayKitten/straykitten.py
 
 ---
 
-### 🐈‍⬛ BlackCat (Trojan Simulation)
+### 🐈‍⬛ [BlackCat (Trojan Simulation)](BlackCat/blackcat.py)
 
 BlackCat is the sneaky one in the family. It:
 - Logs your keystrokes
@@ -59,7 +59,7 @@ python BlackCat/blackcat.py
 
 ---
 
-### 🐶 Dog (Code Obfuscator) [🚧 _Under development_]
+### 🐶 [Dog (Code Obfuscator)](Dog/dog.py) [🚧 _Under development_]
 
 Ever wanted to make your code look like a cryptic mess? Dog has your back! It:
 - Renames variables and functions with random gibberish
