@@ -1,4 +1,4 @@
-# 🐾 MeowWare - The Purrfect Malware Simulation Project 🐾
+# 🐾 MeowWare - The Purrfect Malware Showcase 🐾
 
 ![Meow GIF](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3piMjZpdWgyZ2xydHJyOW93cXRhOHJpdTRscWd0emxvMHhtb3l2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/aNqEFrYVnsS52/giphy.gif)
 
