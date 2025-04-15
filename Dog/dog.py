@@ -60,17 +60,103 @@ class Dog(ast.NodeTransformer):
         """"Renames variables and functions and checks for built-ins"""
         if isinstance(node.ctx, (ast.Store, ast.Load)):
             builtin_names = dir(builtins) if isinstance(__builtins__, dict) else dir(__builtins__)
-            if node.id in builtin_names or node.id in sys.modules:
+            
+            # gambiarra to avoid name collision with built-in names
+            common_names = [
+                'datetime', 'AES', 'random', 'base64', 'time', 'now',
+                'sys', 'os', 'json', 'math', 'numpy', 'pandas',
+                'pickle', 'requests', 're', 'collections', 'func',
+                'float', 'int', 'list', 'dict', 'tuple', 'set',
+                'str', 'bool', 'bytes', 'range', 'zip', 'enumerate',
+                'sleep', 'decode', 'encode', 'load', 'dumps', 'loads'
+            ]
+            
+            if (node.id in builtin_names or 
+                node.id in sys.modules or 
+                node.id in common_names):
                 return node
+                
             if node.id in self.var_map:
                 node.id = self.var_map[node.id]
             else:
                 node.id = self.obfuscate_name(node.id)
         return node
 
+    def insert_dead_code(self, context="general"):
+        """Generate contextual dead code."""
+        
+        dead_code_patterns = [
+            
+            """
+_obf_var1 = random.randint(1, 1000)
+_obf_var2 = _obf_var1 * 2
+_obf_var3 = _obf_var2 // 2
+if _obf_var3 == _obf_var1:
+    pass  
+else:
+    raise Exception("To be or not to be?")  
+""",
+            
+            """
+_obf_check = False
+if _obf_check and datetime.now().year > 3000:
+    print("Meow meow!")
+""",
+
+            """
+def _obf_func():
+    _obf_data = []
+    for i in range(random.randint(10, 20)):
+        _obf_data.append(i * i)
+    return _obf_data
+
+_obf_func()
+""",
+
+            """
+_obf_str = "".join([chr(ord(c) + 1) for c in "complex string"]) 
+_obf_str = "".join([chr(ord(c) - 1) for c in _obf_str])  
+""",
+            
+            """
+def _obf_transform(x):
+    x = 2
+    x = x * 2
+    x = x / 2
+    x = x + 10
+    x = x - 10
+    x = int(x)
+    x = x ^ 0xFF
+    x = x ^ 0xFF
+    return x
+
+_obf_result = _obf_transform(42)
+"""
+        ]
+        
+        pattern = random.choice(dead_code_patterns)
+        
+        pattern = pattern.replace("_obf_var", f"_obf_var{random.randint(1000, 9999)}")
+        pattern = pattern.replace("_obf_func", f"_obf_func{random.randint(1000, 9999)}")
+        pattern = pattern.replace("_obf_check", f"_obf_check{random.randint(1000, 9999)}")
+        pattern = pattern.replace("_obf_str", f"_obf_str{random.randint(1000, 9999)}")
+        pattern = pattern.replace("_obf_result", f"_obf_result{random.randint(1000, 9999)}")
+        
+        return ast.parse(pattern).body
+
     def visit_FunctionDef(self, node):
-        """Obfuscate function names and visit child nodes"""
-        node.name = self.obfuscate_name(node.name)
+        """Obfuscate function names and insert dead code"""
+        original_name = node.name
+        node.name = self.obfuscate_name(original_name)
+        
+        if random.random() < 0.7:  
+            dead_code = self.insert_dead_code()
+            node.body = dead_code + node.body
+        
+        if len(node.body) > 2 and random.random() < 0.5:
+            insert_pos = random.randint(1, len(node.body) - 1)
+            more_dead_code = self.insert_dead_code()
+            node.body[insert_pos:insert_pos] = more_dead_code
         
         for field, old_value in ast.iter_fields(node):
             if isinstance(old_value, list):
@@ -99,6 +185,8 @@ def obfuscate_code(code):
     
     imports = """
 import base64
+import random
+from datetime import datetime
 from Crypto.Cipher import AES
 """
     code = imports + code
